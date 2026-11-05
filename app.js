@@ -1,6 +1,6 @@
 let vsichniHadi = [];
 
-// 1. Asynchronní načtení dat ze souboru hadi.json při startu stránky
+// 1. Načtení dat ze souboru hadi.json
 fetch('hadi.json')
   .then(odpoved => odpoved.json())
   .then(data => {
@@ -8,13 +8,33 @@ fetch('hadi.json')
     vykresliKarty(vsichniHadi);
   });
 
-// 2. Funkce, která vezme pole hadů a vygeneruje pro každého HTML kartu
+// 2. Přepínání záložek v horním menu (SPA logika)
+function prepniZalozku(nazevZalozky) {
+  // Skryje úplně všechny sekce
+  document.querySelectorAll('.zalozka').forEach(sekce => {
+    sekce.classList.add('hidden');
+  });
+
+  // Zobrazí jen vybranou sekci
+  document.getElementById('sekce-' + nazevZalozky).classList.remove('hidden');
+
+  // Aktualizuje barvu aktivního tlačítka v horním panelu
+  document.querySelectorAll('.nav-btn').forEach(tlacitko => {
+    tlacitko.className = 'nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white transition';
+  });
+  const aktivniTlacitko = document.getElementById('nav-' + nazevZalozky);
+  aktivniTlacitko.className = 'nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-amber-500 bg-zinc-900 transition';
+
+  // Automaticky vyroluje na začátek stránky při přepnutí záložky
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 3. Vykreslení karet hadů
 function vykresliKarty(poleHadu) {
   const mrizka = document.getElementById('katalog-mrizka');
-  mrizka.innerHTML = ''; // Vyčištění mřížky před překreslením
+  mrizka.innerHTML = '';
 
   poleHadu.forEach(had => {
-    // Barva štítku podle dostupnosti
     const barvaStavu = had.status === 'Volný' 
       ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' 
       : 'bg-amber-500/20 text-amber-400 border-amber-500/30';
@@ -31,9 +51,9 @@ function vykresliKarty(poleHadu) {
           <p class="text-sm text-zinc-400 mb-4">${had.hets} • Váha: ${had.weight}</p>
           <div class="flex justify-between items-center pt-4 border-t border-zinc-800">
             <span class="text-lg font-bold text-amber-400">${had.price}</span>
-            <a href="mailto:tvuj@email.cz?subject=Zájem o hada ${had.id}" class="text-sm bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-lg transition">
+            <button onclick="prepniZalozku('kontakt')" class="text-sm bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium px-3 py-1.5 rounded-lg transition">
               Mám zájem
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -41,7 +61,7 @@ function vykresliKarty(poleHadu) {
   });
 }
 
-// 3. Funkce pro filtrování po kliknutí na tlačítko
+// 4. Filtrování katalogu
 function filtruj(kriterium) {
   if (kriterium === 'Vše') {
     vykresliKarty(vsichniHadi);

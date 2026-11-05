@@ -3,35 +3,148 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chov Heterodonů | Nabídka odchovů</title>
-  <!-- Načtení moderního grafického frameworku Tailwind CSS -->
+  <title>Spicy Chonky Snakes | Chov Heterodonů</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Moderní font Inter a ikony FontAwesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen font-sans">
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col">
 
-  <!-- Hlavička -->
-  <header class="border-b border-zinc-800 bg-zinc-900/50 py-10 px-6 text-center">
-    <h1 class="text-4xl font-extrabold tracking-tight text-amber-500">Hognose Morphs</h1>
-    <p class="text-zinc-400 mt-2 max-w-xl mx-auto">Vlastní odchovy Heterodon nasicus. Zdravá, rozkrmená zvířata s kompletní genetickou historií.</p>
-  </header>
+  <!-- HORNÍ FIXNÍ PANEL (Sticky Navbar) -->
+  <nav class="sticky top-0 z-50 bg-zinc-950/85 backdrop-blur-md border-b border-zinc-800">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      
+      <!-- Logo / Název (kliknutí vrátí na úvod) -->
+      <button onclick="prepniZalozku('domu')" class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+        <span class="text-amber-500">Spicy Chonky</span> Snakes
+      </button>
 
-  <!-- Hlavní obsah -->
-  <main class="max-w-6xl mx-auto px-6 py-10">
-    
-    <!-- Ovládací tlačítka filtru -->
-    <div class="flex flex-wrap gap-2 mb-8">
-      <button onclick="filtruj('Vše')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Všechna zvířata</button>
-      <button onclick="filtruj('Volný')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Jen volní</button>
-      <button onclick="filtruj('1.0')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Samci (1.0)</button>
-      <button onclick="filtruj('0.1')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Samice (0.1)</button>
+      <!-- Odkazy v menu -->
+      <div class="flex items-center gap-1 sm:gap-2">
+        <button onclick="prepniZalozku('domu')" id="nav-domu" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-amber-500 bg-zinc-900 transition">
+          Úvod
+        </button>
+        <button onclick="prepniZalozku('nabidka')" id="nav-nabidka" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white transition">
+          Nabídka odchovů
+        </button>
+        <button onclick="prepniZalozku('chov')" id="nav-chov" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white transition">
+          Náš chov
+        </button>
+        <button onclick="prepniZalozku('kontakt')" id="nav-kontakt" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white transition">
+          Kontakt
+        </button>
+      </div>
+
     </div>
+  </nav>
 
-    <!-- Mřížka, do které JavaScript vykreslí karty hadů -->
-    <div id="katalog-mrizka" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  <!-- HLAVNÍ OBSAH (Jednotlivé záložky) -->
+  <main class="flex-grow max-w-6xl w-full mx-auto px-6 py-10">
+
+    <!-- 1. ZÁLOŽKA: ÚVODNÍ STRÁNKA (Výchozí viditelná) -->
+    <section id="sekce-domu" class="zalozka py-12">
+      <div class="max-w-3xl mx-auto text-center">
+        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+          Sezóna 2026 / 2027
+        </span>
+        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mt-6 mb-6">
+          Vlastní odchovy <span class="text-amber-500">Heterodon nasicus</span>
+        </h1>
+        <p class="text-lg text-zinc-400 mb-10 leading-relaxed">
+          Zaměřujeme se na selektivní chov barevných a kresebných forem heterodonů. Všechna mláďata odchází perfektně rozkrmená na rozmrazené holátka, s kompletním přehledem genetiky a doživotním chovatelským servisem.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <button onclick="prepniZalozku('nabidka')" class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold transition shadow-lg shadow-amber-500/10">
+            Zobrazit aktuální nabídku
+          </button>
+          <button onclick="prepniZalozku('chov')" class="px-6 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-semibold transition">
+            Prohlédnout chovné skupiny
+          </button>
+        </div>
+      </div>
+
+      <!-- 3 výhody pod úvodem -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20">
+        <div class="bg-zinc-900/60 border border-zinc-800 p-6 rounded-xl">
+          <i class="fa-solid fa-dna text-amber-500 text-2xl mb-3"></i>
+          <h3 class="font-bold text-lg mb-1">Ověřená genetika</h3>
+          <p class="text-sm text-zinc-400">Kombinace linií Toffee, Arctic, Axanthic, Sable, Conda a dalších s jasným původem rodičů.</p>
+        </div>
+        <div class="bg-zinc-900/60 border border-zinc-800 p-6 rounded-xl">
+          <i class="fa-solid fa-heart-pulse text-amber-500 text-2xl mb-3"></i>
+          <h3 class="font-bold text-lg mb-1">100% zdravotní stav</h3>
+          <p class="text-sm text-zinc-400">Zvířata jsou krmena hlodavci z vlastního čistého chovu a odchází až po minimálně 5 samostatných krmeních.</p>
+        </div>
+        <div class="bg-zinc-900/60 border border-zinc-800 p-6 rounded-xl">
+          <i class="fa-solid fa-handshake text-amber-500 text-2xl mb-3"></i>
+          <h3 class="font-bold text-lg mb-1">Osobní předání</h3>
+          <p class="text-sm text-zinc-400">Možnost vyzvednutí osobně (Plzeňsko / Kdyně) nebo po domluvě na terarijních burzách Živá Exotika v Praze.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. ZÁLOŽKA: NABÍDKA ODCHOVŮ (Na začátku skrytá pomocí 'hidden') -->
+    <section id="sekce-nabidka" class="zalozka hidden">
+      <div class="mb-8">
+        <h2 class="text-3xl font-extrabold mb-2">Aktuální nabídka mláďat</h2>
+        <p class="text-zinc-400">Kliknutím na tlačítka níže si můžeš vyfiltrovat dostupná zvířata.</p>
+      </div>
+
+      <!-- Filtry -->
+      <div class="flex flex-wrap gap-2 mb-8">
+        <button onclick="filtruj('Vše')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Všechna zvířata</button>
+        <button onclick="filtruj('Volný')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Jen volní</button>
+        <button onclick="filtruj('1.0')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Samci (1.0)</button>
+        <button onclick="filtruj('0.1')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Samice (0.1)</button>
+      </div>
+
+      <!-- Mřížka hadů -->
+      <div id="katalog-mrizka" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
+    <!-- 3. ZÁLOŽKA: NÁŠ CHOV (Skrytá) -->
+    <section id="sekce-chov" class="zalozka hidden">
+      <h2 class="text-3xl font-extrabold mb-4">O našem chovu a projektech</h2>
+      <p class="text-zinc-400 max-w-2xl mb-8">
+        Tady můžeš představit své chovné samce a samice, podmínky, ve kterých hady držíš, zimování a plány páření na nadcházející sezónu.
+      </p>
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+        <h3 class="text-xl font-bold text-amber-500 mb-2">Plánované projekty</h3>
+        <p class="text-zinc-300 text-sm">Sem můžeme v dalším kroku přidat fotogalerii chovných zvířat nebo tabulku chystaných spojení.</p>
+      </div>
+    </section>
+
+    <!-- 4. ZÁLOŽKA: KONTAKT (Skrytá) -->
+    <section id="sekce-kontakt" class="zalozka hidden">
+      <h2 class="text-3xl font-extrabold mb-4">Kontakt a rezervace</h2>
+      <p class="text-zinc-400 max-w-xl mb-8">
+        Máš-li zájem o konkrétní mládě nebo dotaz k chovu, ozvi se nám přes sociální sítě nebo e-mail.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="https://instagram.com/" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 font-semibold transition">
+          <i class="fa-brands fa-instagram text-pink-500 text-xl"></i> Instagram
+        </a>
+        <a href="https://facebook.com/" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 font-semibold transition">
+          <i class="fa-brands fa-facebook text-blue-500 text-xl"></i> Facebook
+        </a>
+        <a href="mailto:tvuj@email.cz" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 font-semibold transition">
+          <i class="fa-solid fa-envelope text-amber-500 text-xl"></i> Napsat e-mail
+        </a>
+      </div>
+    </section>
 
   </main>
 
-  <!-- Připojení tvého programu v JavaScriptu -->
+  <!-- Patička -->
+  <footer class="border-t border-zinc-900 py-6 text-center text-xs text-zinc-500">
+    © 2026 Spicy Chonky Snakes • Všechna práva vyhrazena
+  </footer>
+
   <script src="app.js"></script>
 </body>
 </html>
