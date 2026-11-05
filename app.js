@@ -3,7 +3,30 @@ let aktualniJazyk = localStorage.getItem('lang') || 'cs';
 let aktualniFiltr = 'Vše';
 let otevreneIdHada = null;
 
-// 1. Slovník všech textů na stránce (CZ a EN)
+// === NASTAVENÍ GOOGLE SHEETS A VRHŮ ===
+// Sem vlož svůj CSV odkaz z Google Sheets (např. "https://docs.google.com/spreadsheets/d/e/.../pub?output=csv")
+const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLsFYVml5E7FnanvuMo_l4s_jkre2nU3WFZm_rY-kQDTJOPW6n-Zi5dVg7rSb0nH3uxeKmdcEnyh_3/pub?gid=0&single=true&output=csv";
+const KURZ_EUR = 25;
+
+// Databáze vrhů (rodiče a datum líhnutí pro celou snůšku)
+const databazeVrhu = {
+  "A": {
+    hatchDate: "18. 05. 2026",
+    fatherName: "1.0 Arctic Toffeeconda",
+    fatherImage: "img/otec-a.jpg",
+    motherName: "0.1 Superarctic het Toffee",
+    motherImage: "img/matka-a.jpg"
+  },
+  "B": {
+    hatchDate: "02. 06. 2026",
+    fatherName: "1.0 Sable het Toffee",
+    fatherImage: "img/otec-b.jpg",
+    motherName: "0.1 Toffeeconda het Sable",
+    motherImage: "img/matka-b.jpg"
+  }
+};
+
+// Slovník textů (CZ / EN)
 const preklady = {
   cs: {
     navHome: "Úvod",
@@ -109,7 +132,7 @@ const preklady = {
   }
 };
 
-// 2. Inicializace motivu a jazyka při startu
+// Inicializace při startu
 document.addEventListener("DOMContentLoaded", () => {
   const ulozenyRezim = localStorage.getItem('theme');
   if (ulozenyRezim === 'light') {
@@ -120,49 +143,45 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('ikona-rezimu').className = "fa-solid fa-moon";
   }
   aplikujJazyk();
+  nactiData();
 });
-// === NASTAVENÍ GOOGLE SHEETS A VRHŮ ===
 
-// 1. Sem vlož zkopírovaný CSV odkaz ze své Google Tabulky:
-const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLsFYVml5E7FnanvuMo_l4s_jkre2nU3WFZm_rY-kQDTJOPW6n-Zi5dVg7rSb0nH3uxeKmdcEnyh_3/pub?gid=0&single=true&output=csv";
+// Načtení dat z Google Sheets nebo záložního JSONu
+function nactiData() {
+  const zdrojDat = GOOGLE_SHEET_CSV_URL.startsWith("http") ? GOOGLE_SHEET_CSV_URL : 'hadi.json';
 
-// 2. Kurz pro automatický přepočet Kč na EUR v anglické verzi:
-const KURZ_EUR = 25;
+  fetch(zdrojDat)
+    .then(odpoved => odpoved.text())
+    .then(surovaData => {
+      if (zdrojDat.endsWith('.json')) {
+        vsichniHadi = JSON.parse(surovaData);
+      } else {
+        vsichniHadi = zpracujCsvTabulku(surovaData);
+      }
+      
+      if (vsichniHadi.length === 0 && zdrojDat !== 'hadi.json') {
+        fetch('hadi.json')
+          .then(res => res.json())
+          .then(jsonZaloha => {
+            vsichniHadi = jsonZaloha;
+            filtruj(aktualniFiltr);
+            zpracujHashUrl();
+          });
+      } else {
+        filtruj(aktualniFiltr);
+        zpracujHashUrl();
+      }
+    })
+    .catch(chyba => {
+      console.error("Chyba při načítání dat:", chyba);
+    });
+}
 
-// 3. Databáze vrhů (rodiče a datum líhnutí zadáš jen jednou pro celou snůšku):
-const databazeVrhu = {
-  "A": {
-    hatchDate: "18. 05. 2026",
-    fatherName: "1.0 Arctic Toffeeconda",
-    fatherImage: "img/otec-a.jpg",
-    motherName: "0.1 Superarctic het Toffee",
-    motherImage: "img/matka-a.jpg"
-  },
-  "B": {
-    hatchDate: "02. 06. 2026",
-    fatherName: "1.0 Sable het Toffee",
-    fatherImage: "img/otec-b.jpg",
-    motherName: "0.1 Toffeeconda het Sable",
-    motherImage: "img/matka-b.jpg"
-  }
-};
+window.addEventListener('popstate', () => {
+  zpracujHashUrl();
+});
 
-// 3. Načtení dat přímo z Google Tabulky (s fallbackem na hadi.json, dokud nevložíš odkaz)
-const zdrojDat = GOOGLE_SHEET_CSV_URL.startsWith("http") ? GOOGLE_SHEET_CSV_URL : 'hadi.json';
-
-fetch(zdrojDat)
-  .then(odpoved => odpoved.text())
-  .then(surovaData => {
-    if (zdrojDat.endsWith('.json')) {
-      vsichniHadi = JSON.parse(surovaData);
-    } else {
-      vsichniHadi = zpracujCsvTabulku(surovaData);
-    }
-    filtruj(aktualniFiltr);
-    zpracujHashUrl();
-  });
-
-// Převod řádků z Google Sheets (CSV) na chytré objekty hadů
+// Zpracování CSV tabulky z Google Sheets
 function zpracujCsvTabulku(csvText) {
   const radky = parseCSV(csvText);
   if (radky.length < 2) return [];
@@ -172,7 +191,7 @@ function zpracujCsvTabulku(csvText) {
 
   for (let i = 1; i < radky.length; i++) {
     const radek = radky[i];
-    if (!radek[0] || radek[0].trim() === "") continue; // Přeskočí prázdné řádky v tabulce
+    if (!radek[0] || radek[0].trim() === "") continue;
 
     let raw = {};
     hlavicka.forEach((klic, index) => {
@@ -196,20 +215,18 @@ function zpracujCsvTabulku(csvText) {
       motherImage: vrh.motherImage || `img/${raw.id}.jpg`,
       feeding: "Rozmrazená myší holátka",
       feedingEn: "Frozen/thawed pinky mice",
-      description: raw.description || "Zdravé, bezproblémově rozkrmené mládě z vlastního chovu. Samostatně přijímá rozmrazená holátka z pinzety.",
-      descriptionEn: raw.descriptionEn || "Healthy, well-started hatchling from our own breeding. Feeding reliably on frozen/thawed pinkies off tongs.",
+      description: raw.description || "Zdravé, bezproblémově rozkrmené mládě z vlastního chovu.",
+      descriptionEn: raw.descriptionEn || "Healthy, well-started hatchling from our own breeding.",
       price: cistaCena ? `${cistaCena.toLocaleString('cs-CZ')} Kč` : "Na dotaz",
       priceEn: cistaCena ? `${Math.round(cistaCena / KURZ_EUR)} €` : "Inquire",
       status: kodStavu === 'V' ? 'Volný' : (kodStavu === 'R' ? 'Rezervace' : 'Prodáno'),
       statusEn: kodStavu === 'V' ? 'Available' : (kodStavu === 'R' ? 'On Hold' : 'Sold'),
-      // Pokud do sloupce K (image) nedáš jiný odkaz, fotka se vezme automaticky ze složky img/ podle ID:
       image: raw.image || `img/${raw.id}.jpg`
     });
   }
   return vysledek;
 }
 
-// Bezpečné rozsekání CSV (zvládá i čárky uvnitř vět v popiscích)
 function parseCSV(text) {
   const radky = [];
   let radek = [], bunka = '', vUvozovkach = false;
@@ -231,7 +248,8 @@ function parseCSV(text) {
   if (bunka || radek.length > 0) { radek.push(bunka); radky.push(radek); }
   return radky;
 }
-// 4. Přepínání jazyka (CZ <-> EN)
+
+// Přepínání jazyka
 function prepnoutJazyk() {
   aktualniJazyk = aktualniJazyk === 'cs' ? 'en' : 'cs';
   localStorage.setItem('lang', aktualniJazyk);
@@ -241,17 +259,13 @@ function prepnoutJazyk() {
 function aplikujJazyk() {
   const t = preklady[aktualniJazyk];
   document.documentElement.lang = aktualniJazyk;
-  
-  // Tlačítko ukazuje jazyk, do kterého se dá přepnout
   document.getElementById('tlacitko-jazyk').innerText = aktualniJazyk === 'cs' ? 'EN' : 'CZ';
 
-  // Přeloží všechny HTML prvky s atributem data-i18n
   document.querySelectorAll('[data-i18n]').forEach(prvek => {
     const klic = prvek.getAttribute('data-i18n');
     if (t[klic]) prvek.innerText = t[klic];
   });
 
-  // Překreslí katalog i případně otevřený detail hada do nového jazyka
   if (vsichniHadi.length > 0) {
     filtruj(aktualniFiltr);
     if (otevreneIdHada && !document.getElementById('sekce-detail').classList.contains('hidden')) {
@@ -260,13 +274,11 @@ function aplikujJazyk() {
   }
 }
 
-// Pomocná funkce pro formátování pohlaví podle jazyka
 function formatujPohlavi(sexKod) {
   const t = preklady[aktualniJazyk];
   return sexKod.includes('1.0') ? t.maleLabel : t.femaleLabel;
 }
 
-// 5. Rozpoznání URL adresy
 function zpracujHashUrl() {
   const hash = window.location.hash.replace('#', '');
   if (hash.startsWith('detail-')) {
@@ -279,7 +291,6 @@ function zpracujHashUrl() {
   }
 }
 
-// 6. Přepínání hlavních záložek
 function zmenZalozku(nazevZalozky, zapsatDoHistorie = true) {
   document.querySelectorAll('.zalozka').forEach(sekce => {
     sekce.classList.add('hidden');
@@ -303,7 +314,6 @@ function zmenZalozku(nazevZalozky, zapsatDoHistorie = true) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// 7. Vykreslení karet v katalogu
 function vykresliKarty(poleHadu) {
   const mrizka = document.getElementById('katalog-mrizka');
   if (!mrizka) return;
@@ -341,7 +351,6 @@ function vykresliKarty(poleHadu) {
   });
 }
 
-// 8. Otevření podstránky s detailem mláděte a rodiči
 function otevriDetail(idHada, zapsatDoHistorie = true) {
   const had = vsichniHadi.find(h => h.id === idHada);
   if (!had) {
@@ -364,7 +373,6 @@ function otevriDetail(idHada, zapsatDoHistorie = true) {
   kontejner.innerHTML = `
     <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-2">
       
-      <!-- Levá část: Velká fotka + rodiče -->
       <div class="bg-zinc-100 dark:bg-zinc-950 flex flex-col justify-between p-4 sm:p-6">
         <div class="relative rounded-xl overflow-hidden bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
           <span id="detail-popisek-fotky" class="absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-bold bg-zinc-950/80 text-amber-400 backdrop-blur-sm border border-zinc-800">
@@ -403,7 +411,6 @@ function otevriDetail(idHada, zapsatDoHistorie = true) {
         </div>
       </div>
 
-      <!-- Pravá část: Parametry -->
       <div class="p-6 sm:p-8 flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center mb-3">
@@ -462,7 +469,6 @@ function vymenFotkuDetailu(novaCesta, novyPopisek) {
   document.getElementById('detail-popisek-fotky').innerText = novyPopisek;
 }
 
-// 9. Kliknutí na "Mám zájem"
 function mamZajem(idHada, jmenoHada) {
   const t = preklady[aktualniJazyk];
   const infoBox = document.getElementById('kontakt-predvyplneno');
@@ -476,7 +482,6 @@ function mamZajem(idHada, jmenoHada) {
   zmenZalozku('kontakt', true);
 }
 
-// 10. Filtrování katalogu
 function filtruj(kriterium) {
   aktualniFiltr = kriterium;
   if (kriterium === 'Vše') {
@@ -488,7 +493,6 @@ function filtruj(kriterium) {
   }
 }
 
-// 11. Přepínání tmavého a světlého režimu
 function prepnoutRezim() {
   const isDark = document.documentElement.classList.toggle('dark');
   const ikona = document.getElementById('ikona-rezimu');
