@@ -1,0 +1,22 @@
+[
+  {
+    "id": "HN-26-01",
+    "name": "Superarctic Toffeeconda",
+    "hets": "100% het Albino",
+    "sex": "0.1",
+    "weight": "32 g",
+    "price": "8 500 Kč",
+    "status": "Volný",
+    "image": "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": "HN-26-02",
+    "name": "Sable Conda",
+    "hets": "100% het Toffee",
+    "sex": "1.0",
+    "weight": "24 g",
+    "price": "6 000 Kč",
+    "status": "Rezervace",
+    "image": "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=600&q=80"
+  }
+]
