@@ -3,146 +3,164 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spicy-Chonky-Snakes | Chov Heterodonů</title>
-  <!-- Tailwind CSS -->
+  <title>Spicy Chonky Snakes | Hognose Breeder</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Moderní font Inter a ikony FontAwesome -->
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     body { font-family: 'Inter', sans-serif; }
   </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col">
+<body class="bg-gradient-to-b from-slate-100 via-slate-200 to-zinc-300 dark:from-zinc-900 dark:via-zinc-950 dark:to-black text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-300">
 
-  <!-- HORNÍ FIXNÍ PANEL (Sticky Navbar) -->
-  <nav class="sticky top-0 z-50 bg-zinc-950/85 backdrop-blur-md border-b border-zinc-800">
+  <!-- HORNÍ FIXNÍ PANEL -->
+  <nav class="sticky top-0 z-50 bg-slate-100/85 dark:bg-zinc-950/85 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-colors">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
       
-      <!-- Logo / Název (kliknutí vrátí na úvod) -->
-      <button onclick="prepniZalozku('domu')" class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
-        <span class="text-amber-500">Spicy Chonky</span> Snakes
-      </button>
+      <!-- Logo úplně vlevo -->
+      <div class="flex items-center">
+        <button onclick="zmenZalozku('domu', true)" class="text-xl font-extrabold tracking-tight flex items-center gap-2 text-left">
+          <span class="text-amber-500">Spicy Chonky</span> <span class="text-zinc-900 dark:text-white">Snakes</span>
+        </button>
+      </div>
 
-      <!-- Odkazy v menu -->
+      <!-- Odkazy v menu + Přepínače jazyka a režimu -->
       <div class="flex items-center gap-1 sm:gap-2">
-        <button onclick="prepniZalozku('domu')" id="nav-domu" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-amber-500 bg-zinc-900 transition">
+        <button onclick="zmenZalozku('domu', true)" id="nav-domu" data-i18n="navHome" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-amber-600 dark:text-amber-500 bg-zinc-200 dark:bg-zinc-900 transition">
           Úvod
         </button>
-        <button onclick="prepniZalozku('nabidka')" id="nav-nabidka" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white transition">
+        <button onclick="zmenZalozku('nabidka', true)" id="nav-nabidka" data-i18n="navOffer" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
           Nabídka odchovů
         </button>
-        <button onclick="prepniZalozku('chov')" id="nav-chov" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white transition">
+        <button onclick="zmenZalozku('chov', true)" id="nav-chov" data-i18n="navBreeding" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
           Náš chov
         </button>
-        <button onclick="prepniZalozku('kontakt')" id="nav-kontakt" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white transition">
+        <button onclick="zmenZalozku('kontakt', true)" id="nav-kontakt" data-i18n="navContact" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
           Kontakt
+        </button>
+
+        <!-- TLAČÍTKO PRO PŘEPÍNÁNÍ JAZYKA (CZ / EN) -->
+        <button onclick="prepnoutJazyk()" id="tlacitko-jazyk" class="ml-2 px-2.5 py-1.5 rounded-lg bg-zinc-200 dark:bg-zinc-900 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 hover:text-amber-500 dark:hover:text-amber-500 transition border border-zinc-300 dark:border-zinc-800" title="Switch language / Přepnout jazyk">
+          EN
+        </button>
+
+        <!-- TLAČÍTKO PRO PŘEPÍNÁNÍ REŽIMU -->
+        <button onclick="prepnoutRezim()" class="p-2 rounded-lg bg-zinc-200 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:text-amber-500 dark:hover:text-amber-500 transition border border-zinc-300 dark:border-zinc-800" title="Přepnout tmavý/světlý režim">
+          <i id="ikona-rezimu" class="fa-solid fa-moon"></i>
         </button>
       </div>
 
     </div>
   </nav>
 
-  <!-- HLAVNÍ OBSAH (Jednotlivé záložky) -->
+  <!-- HLAVNÍ OBSAH -->
   <main class="flex-grow max-w-6xl w-full mx-auto px-6 py-10">
 
-    <!-- 1. ZÁLOŽKA: ÚVODNÍ STRÁNKA (Výchozí viditelná) -->
+    <!-- 1. ZÁLOŽKA: ÚVOD -->
     <section id="sekce-domu" class="zalozka py-12">
       <div class="max-w-3xl mx-auto text-center">
-        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+        <span data-i18n="heroBadge" class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
           Sezóna 2026 / 2027
         </span>
         <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mt-6 mb-6">
-          Vlastní odchovy <span class="text-amber-500">Heterodon nasicus</span>
+          <span data-i18n="heroTitle">Vlastní odchovy</span> <span class="text-amber-500">Heterodon nasicus</span>
         </h1>
-        <p class="text-lg text-zinc-400 mb-10 leading-relaxed">
-          Zaměřujeme se na selektivní chov barevných a kresebných forem heterodonů. Všechna mláďata odchází perfektně rozkrmená na rozmrazené holátka, s kompletním přehledem genetiky a doživotním chovatelským servisem.
+        <p data-i18n="heroDesc" class="text-lg text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
+          Zaměřujeme se na selektivní chov barevných a kresebných forem heterodonů. Všechna mláďata odchází perfektně rozkrmená na rozmrazená holátka, s kompletním přehledem genetiky a doživotním chovatelským servisem.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
-          <button onclick="prepniZalozku('nabidka')" class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold transition shadow-lg shadow-amber-500/10">
+          <button onclick="zmenZalozku('nabidka', true)" data-i18n="heroBtnOffer" class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold transition shadow-lg shadow-amber-500/10">
             Zobrazit aktuální nabídku
           </button>
-          <button onclick="prepniZalozku('chov')" class="px-6 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-semibold transition">
+          <button onclick="zmenZalozku('chov', true)" data-i18n="heroBtnBreeding" class="px-6 py-3 rounded-xl bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 font-semibold transition">
             Prohlédnout chovné skupiny
           </button>
         </div>
       </div>
 
-      <!-- 3 výhody pod úvodem -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20">
-        <div class="bg-zinc-900/60 border border-zinc-800 p-6 rounded-xl">
+        <div class="bg-white/70 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 p-6 rounded-xl shadow-sm dark:shadow-none">
           <i class="fa-solid fa-dna text-amber-500 text-2xl mb-3"></i>
-          <h3 class="font-bold text-lg mb-1">Ověřená genetika</h3>
-          <p class="text-sm text-zinc-400">Kombinace linií Toffee, Arctic, Axanthic, Sable, Conda a dalších s jasným původem rodičů.</p>
+          <h3 data-i18n="feat1Title" class="font-bold text-lg mb-1">Ověřená genetika</h3>
+          <p data-i18n="feat1Desc" class="text-sm text-zinc-600 dark:text-zinc-400">Kombinace linií Toffee, Arctic, Axanthic, Sable, Conda a dalších s jasným původem rodičů.</p>
         </div>
-        <div class="bg-zinc-900/60 border border-zinc-800 p-6 rounded-xl">
+        <div class="bg-white/70 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 p-6 rounded-xl shadow-sm dark:shadow-none">
           <i class="fa-solid fa-heart-pulse text-amber-500 text-2xl mb-3"></i>
-          <h3 class="font-bold text-lg mb-1">100% zdravotní stav</h3>
-          <p class="text-sm text-zinc-400">Zvířata jsou krmena hlodavci z vlastního čistého chovu a odchází až po minimálně 5 samostatných krmeních.</p>
+          <h3 data-i18n="feat2Title" class="font-bold text-lg mb-1">100% zdravotní stav</h3>
+          <p data-i18n="feat2Desc" class="text-sm text-zinc-600 dark:text-zinc-400">Zvířata jsou krmena hlodavci z vlastního čistého chovu a odchází až po minimálně 5 samostatných krmeních.</p>
         </div>
-        <div class="bg-zinc-900/60 border border-zinc-800 p-6 rounded-xl">
+        <div class="bg-white/70 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 p-6 rounded-xl shadow-sm dark:shadow-none">
           <i class="fa-solid fa-handshake text-amber-500 text-2xl mb-3"></i>
-          <h3 class="font-bold text-lg mb-1">Osobní předání</h3>
-          <p class="text-sm text-zinc-400">Možnost vyzvednutí osobně (Plzeňsko / Kdyně) nebo po domluvě na terarijních burzách Živá Exotika v Praze.</p>
+          <h3 data-i18n="feat3Title" class="font-bold text-lg mb-1">Osobní předání</h3>
+          <p data-i18n="feat3Desc" class="text-sm text-zinc-600 dark:text-zinc-400">Možnost vyzvednutí osobně (Plzeňsko / Kdyně) nebo po domluvě na terarijních burzách Živá Exotika v Praze.</p>
         </div>
       </div>
     </section>
 
-    <!-- 2. ZÁLOŽKA: NABÍDKA ODCHOVŮ (Na začátku skrytá pomocí 'hidden') -->
+    <!-- 2. ZÁLOŽKA: NABÍDKA -->
     <section id="sekce-nabidka" class="zalozka hidden">
       <div class="mb-8">
-        <h2 class="text-3xl font-extrabold mb-2">Aktuální nabídka mláďat</h2>
-        <p class="text-zinc-400">Kliknutím na tlačítka níže si můžeš vyfiltrovat dostupná zvířata.</p>
+        <h2 data-i18n="offerTitle" class="text-3xl font-extrabold mb-2">Aktuální nabídka mláďat</h2>
+        <p data-i18n="offerSubtitle" class="text-zinc-600 dark:text-zinc-400">Kliknutím na tlačítka níže si můžeš vyfiltrovat dostupná zvířata.</p>
       </div>
 
-      <!-- Filtry -->
       <div class="flex flex-wrap gap-2 mb-8">
-        <button onclick="filtruj('Vše')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Všechna zvířata</button>
-        <button onclick="filtruj('Volný')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Jen volní</button>
-        <button onclick="filtruj('1.0')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Samci (1.0)</button>
-        <button onclick="filtruj('0.1')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Samice (0.1)</button>
+        <button onclick="filtruj('Vše')" data-i18n="filterAll" class="px-4 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Všechna zvířata</button>
+        <button onclick="filtruj('Volný')" data-i18n="filterAvailable" class="px-4 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Jen volní</button>
+        <button onclick="filtruj('1.0')" data-i18n="filterMales" class="px-4 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Samci (1.0)</button>
+        <button onclick="filtruj('0.1')" data-i18n="filterFemales" class="px-4 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-medium transition">Samice (0.1)</button>
       </div>
 
-      <!-- Mřížka hadů -->
       <div id="katalog-mrizka" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
-    <!-- 3. ZÁLOŽKA: NÁŠ CHOV (Skrytá) -->
+    <!-- 2B. PODSTRÁNKA: DETAIL KONKRÉTNÍHO HADA -->
+    <section id="sekce-detail" class="zalozka hidden">
+      <button onclick="zmenZalozku('nabidka', true)" class="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-amber-500 dark:hover:text-amber-500 mb-6 transition">
+        <i class="fa-solid fa-arrow-left"></i> <span data-i18n="backToOffer">Zpět na přehled nabídky</span>
+      </button>
+      <div id="detail-obsah"></div>
+    </section>
+
+    <!-- 3. ZÁLOŽKA: CHOV -->
     <section id="sekce-chov" class="zalozka hidden">
-      <h2 class="text-3xl font-extrabold mb-4">O našem chovu a projektech</h2>
-      <p class="text-zinc-400 max-w-2xl mb-8">
+      <h2 data-i18n="breedingTitle" class="text-3xl font-extrabold mb-4">O našem chovu a projektech</h2>
+      <p data-i18n="breedingDesc" class="text-zinc-600 dark:text-zinc-400 max-w-2xl mb-8">
         Tady můžeš představit své chovné samce a samice, podmínky, ve kterých hady držíš, zimování a plány páření na nadcházející sezónu.
       </p>
-      <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-        <h3 class="text-xl font-bold text-amber-500 mb-2">Plánované projekty</h3>
-        <p class="text-zinc-300 text-sm">Sem můžeme v dalším kroku přidat fotogalerii chovných zvířat nebo tabulku chystaných spojení.</p>
+      <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 shadow-sm dark:shadow-none">
+        <h3 data-i18n="breedingProjectsTitle" class="text-xl font-bold text-amber-500 mb-2">Plánované projekty</h3>
+        <p data-i18n="breedingProjectsDesc" class="text-zinc-700 dark:text-zinc-300 text-sm">Sem můžeme v dalším kroku přidat fotogalerii chovných zvířat nebo tabulku chystaných spojení.</p>
       </div>
     </section>
 
-    <!-- 4. ZÁLOŽKA: KONTAKT (Skrytá) -->
+    <!-- 4. ZÁLOŽKA: KONTAKT -->
     <section id="sekce-kontakt" class="zalozka hidden">
-      <h2 class="text-3xl font-extrabold mb-4">Kontakt a rezervace</h2>
-      <p class="text-zinc-400 max-w-xl mb-8">
+      <h2 data-i18n="contactTitle" class="text-3xl font-extrabold mb-4">Kontakt a rezervace</h2>
+      <p id="kontakt-predvyplneno" class="hidden mb-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 font-medium"></p>
+      <p data-i18n="contactDesc" class="text-zinc-600 dark:text-zinc-400 max-w-xl mb-8">
         Máš-li zájem o konkrétní mládě nebo dotaz k chovu, ozvi se nám přes sociální sítě nebo e-mail.
       </p>
       <div class="flex flex-wrap gap-4">
-        <a href="https://instagram.com/" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 font-semibold transition">
+        <a href="https://instagram.com/" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 font-semibold transition">
           <i class="fa-brands fa-instagram text-pink-500 text-xl"></i> Instagram
         </a>
-        <a href="https://facebook.com/" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 font-semibold transition">
+        <a href="https://facebook.com/" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 font-semibold transition">
           <i class="fa-brands fa-facebook text-blue-500 text-xl"></i> Facebook
         </a>
-        <a href="mailto:tvuj@email.cz" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 font-semibold transition">
-          <i class="fa-solid fa-envelope text-amber-500 text-xl"></i> Napsat e-mail
+        <a id="kontakt-email-tlacitko" href="mailto:tvuj@email.cz" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 font-semibold transition">
+          <i class="fa-solid fa-envelope text-amber-500 text-xl"></i> <span data-i18n="contactEmailBtn">Napsat e-mail</span>
         </a>
       </div>
     </section>
 
   </main>
 
-  <!-- Patička -->
-  <footer class="border-t border-zinc-900 py-6 text-center text-xs text-zinc-500">
-    © 2026 Spicy Chonky Snakes • Všechna práva vyhrazena
+  <footer class="border-t border-zinc-200 dark:border-zinc-900 py-6 text-center text-xs text-zinc-500 transition-colors">
+    © 2026 Spicy Chonky Snakes • <span data-i18n="footerRights">Všechna práva vyhrazena</span>
   </footer>
 
   <script src="app.js"></script>

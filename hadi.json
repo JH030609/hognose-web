@@ -5,9 +5,20 @@
     "hets": "100% het Albino",
     "sex": "0.1",
     "weight": "32 g",
+    "hatchDate": "18. 05. 2026",
+    "fatherName": "1.0 Arctic Toffeeconda",
+    "fatherImage": "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=600&q=80",
+    "motherName": "0.1 Superarctic het Toffee",
+    "motherImage": "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=600&q=80",
+    "feeding": "Rozmrazená myší holátka (bezproblémový lovec)",
+    "feedingEn": "Frozen/thawed pinky mice (great feeder)",
+    "description": "Krásně vybarvená samice s výrazným kontrastem a čistým vzorem Conda. Od vylíhnutí přijímá potravu naprosto samostatně z pinzety, má za sebou přes 10 krmení a několik kompletních svleků.",
+    "descriptionEn": "High-contrast female with a clean Conda pattern. Eating frozen/thawed pinkies reliably off tongs since hatching, with 10+ meals and multiple complete sheds.",
     "price": "8 500 Kč",
+    "priceEn": "340 €",
     "status": "Volný",
-    "image": "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=600&q=80"
+    "statusEn": "Available",
+    "image": "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=800&q=80"
   },
   {
     "id": "HN-26-02",
@@ -15,8 +26,19 @@
     "hets": "100% het Toffee",
     "sex": "1.0",
     "weight": "24 g",
+    "hatchDate": "02. 06. 2026",
+    "fatherName": "1.0 Sable het Toffee",
+    "fatherImage": "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=600&q=80",
+    "motherName": "0.1 Toffeeconda het Sable",
+    "motherImage": "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=600&q=80",
+    "feeding": "Rozmrazená myší holátka",
+    "feedingEn": "Frozen/thawed pinky mice",
+    "description": "Tmavý samec s redukovanou kresbou Conda a 100% heterozygotním genem pro Toffee (skvělý základ pro budoucí odchov Toxic kombinací). Klidné zvíře, pravidelně žere každých 5 dní.",
+    "descriptionEn": "Dark male with a reduced Conda pattern and 100% het for Toffee (great foundation for future Toxic projects). Calm temperament, feeding every 5 days.",
     "price": "6 000 Kč",
+    "priceEn": "240 €",
     "status": "Rezervace",
-    "image": "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=600&q=80"
+    "statusEn": "On Hold",
+    "image": "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=800&q=80"
   }
 ]
