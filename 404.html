@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Spicy Chonky Snakes</title>
+  <script>
+    // Tento skript zachytí URL adresu a přesměruje ji do index.html se zachováním hashe (např. #detail-...)
+    const cesta = window.location.pathname + window.location.search + window.location.hash;
+    const repoNazev = ""; // Pokud máš web v podsložce (např. /hognose-web/), doplň název sem, jinak nechej prázdné
+    
+    // Okamžitý přesun na hlavní stránku s předáním historie
+    window.location.replace(window.location.origin + repoNazev + "/#" + window.location.pathname.split('/').pop() + window.location.hash);
+  </script>
+</head>
+<body>
+  <p>Načítám stránku...</p>
+</body>
+</html>
