@@ -38,10 +38,12 @@ function zmenZalozku(nazevZalozky, zapsatDoHistorie = true) {
   document.querySelectorAll('.nav-btn').forEach(tlacitko => {
     tlacitko.className = 'nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition';
   });
+  
   const idAktivnihoMenu = nazevZalozky === 'detail' ? 'nabidka' : nazevZalozky;
   const aktivniTlacitko = document.getElementById('nav-' + idAktivnihoMenu);
+  
   if (aktivniTlacitko) {
-    aktivniTlacitko.className = 'nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-amber-600 dark:text-amber-500 bg-zinc-200 dark:bg-zinc-900 transition';
+    aktivniTlacitko.className = 'nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-orange-600 dark:text-orange-400 bg-zinc-100 dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 shadow-sm transition';
   }
 
   if (zapsatDoHistorie) {
@@ -61,23 +63,23 @@ function vykresliKarty(poleHadu) {
     const cenaText = aktualniJazyk === 'en' ? (had.priceEn || had.price) : had.price;
     const barvaStavu = had.status === 'Volný' 
       ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-500/30' 
-      : 'bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/30';
+      : 'bg-orange-500/20 text-orange-600 dark:text-orange-400 border-orange-500/30';
 
     mrizka.innerHTML += `
-      <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm dark:shadow-lg hover:border-amber-500/50 dark:hover:border-amber-500/50 transition flex flex-col">
-        <img onclick="otevriDetail('${had.id}', true)" src="${had.image}" alt="${had.name}" class="w-full h-56 object-cover cursor-pointer hover:opacity-90 transition">
+      <div class="bg-white dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 rounded-xl overflow-hidden shadow-sm dark:shadow-lg hover:border-orange-500/50 dark:hover:border-orange-500/50 transition flex flex-col">
+        <img onclick="otevriDetail('${had.id}', true)" src="${had.image}" alt="${had.name}" class="w-full aspect-square object-cover cursor-pointer hover:opacity-90 transition">
         <div class="p-5 flex-grow flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400">${had.id} • ${formatujPohlavi(had.sex)}</span>
+              <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400">${had.id} • ${had.sex}</span>
               <span class="text-xs px-2.5 py-0.5 rounded-full border ${barvaStavu}">${stavText}</span>
             </div>
-            <h2 onclick="otevriDetail('${had.id}', true)" class="text-xl font-bold text-zinc-900 dark:text-white hover:text-amber-500 dark:hover:text-amber-400 cursor-pointer transition">${had.name}</h2>
+            <h2 onclick="otevriDetail('${had.id}', true)" class="text-xl font-bold text-zinc-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer transition">${had.name}</h2>
             <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">${had.hets} • ${t.weightLabel}: ${had.weight}</p>
           </div>
-          <div class="flex justify-between items-center pt-4 border-t border-zinc-200 dark:border-zinc-800">
-            <span class="text-lg font-bold text-amber-600 dark:text-amber-400">${cenaText}</span>
-            <button onclick="otevriDetail('${had.id}', true)" class="text-sm bg-zinc-200 dark:bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 font-semibold px-3.5 py-1.5 rounded-lg transition">
+          <div class="flex justify-between items-center pt-4 border-t border-zinc-200 dark:border-stone-800">
+            <span class="text-lg font-bold text-orange-600 dark:text-orange-500">${cenaText}</span>
+            <button onclick="otevriDetail('${had.id}', true)" class="text-sm bg-zinc-200 dark:bg-stone-800 hover:bg-orange-600 hover:text-white font-semibold px-3.5 py-1.5 rounded-lg transition">
               ${t.moreDetails} <i class="fa-solid fa-chevron-right text-xs ml-1"></i>
             </button>
           </div>
@@ -103,32 +105,32 @@ function otevriDetail(idHada, zapsatDoHistorie = true) {
 
   const barvaStavu = had.status === 'Volný' 
     ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-500/30' 
-    : 'bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/30';
+    : 'bg-orange-500/20 text-orange-600 dark:text-orange-400 border-orange-500/30';
 
   const kontejner = document.getElementById('detail-obsah');
   kontejner.innerHTML = `
-    <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-2">
+    <div class="bg-white dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 rounded-2xl overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-2">
       
-      <div class="bg-zinc-100 dark:bg-zinc-950 flex flex-col justify-between p-4 sm:p-6">
-        <div class="relative rounded-xl overflow-hidden bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
-          <span id="detail-popisek-fotky" class="absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-bold bg-zinc-950/80 text-amber-400 backdrop-blur-sm border border-zinc-800">
+      <div class="bg-zinc-100 dark:bg-stone-950 flex flex-col justify-between p-4 sm:p-6">
+        <div class="relative rounded-xl overflow-hidden bg-stone-900 border border-zinc-200 dark:border-stone-800">
+          <span id="detail-popisek-fotky" class="absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-bold bg-stone-950/80 text-orange-400 backdrop-blur-sm border border-stone-800">
             ${t.photoBaby} (${had.id})
           </span>
-          <img id="detail-hlavni-fotka" src="${had.image}" alt="${had.name}" class="w-full h-[380px] sm:h-[440px] object-cover transition-all duration-300">
+          <img id="detail-hlavni-fotka" src="${had.image}" alt="${had.name}" class="w-full aspect-square object-cover transition-all duration-300">
         </div>
 
         <div class="mt-4">
           <div class="flex items-center justify-between mb-2">
             <span class="text-xs font-bold uppercase tracking-wider text-zinc-500">${t.parentsTitle}</span>
-            <button onclick="vymenFotkuDetailu('${had.image}', '${t.photoBaby} (${had.id})')" class="text-xs text-amber-600 dark:text-amber-400 hover:underline font-semibold">
+            <button onclick="vymenFotkuDetailu('${had.image}', '${t.photoBaby} (${had.id})')" class="text-xs text-orange-600 dark:text-orange-400 hover:underline font-semibold">
               ${t.backToBabyPhoto}
             </button>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div onclick="vymenFotkuDetailu('${had.fatherImage || had.image}', '${t.fatherBadge}: ${had.fatherName || ''}')" 
-                 class="group cursor-pointer bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-amber-500 dark:hover:border-amber-500 rounded-xl p-2 flex items-center gap-3 transition">
-              <img src="${had.fatherImage || had.image}" alt="Sire" class="w-14 h-14 rounded-lg object-cover flex-shrink-0 group-hover:opacity-90">
+                 class="group cursor-pointer bg-white dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 hover:border-orange-500 dark:hover:border-orange-500 rounded-xl p-2 flex items-center gap-3 transition">
+              <img src="${had.fatherImage || had.image}" alt="Sire" class="w-14 h-14 aspect-square rounded-lg object-cover flex-shrink-0 group-hover:opacity-90">
               <div class="overflow-hidden">
                 <span class="text-[11px] font-bold text-blue-500 dark:text-blue-400 block">${t.fatherBadge}</span>
                 <span class="text-xs font-semibold text-zinc-900 dark:text-zinc-200 truncate block">${had.fatherName || '-'}</span>
@@ -136,8 +138,8 @@ function otevriDetail(idHada, zapsatDoHistorie = true) {
             </div>
 
             <div onclick="vymenFotkuDetailu('${had.motherImage || had.image}', '${t.motherBadge}: ${had.motherName || ''}')" 
-                 class="group cursor-pointer bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-amber-500 dark:hover:border-amber-500 rounded-xl p-2 flex items-center gap-3 transition">
-              <img src="${had.motherImage || had.image}" alt="Dam" class="w-14 h-14 rounded-lg object-cover flex-shrink-0 group-hover:opacity-90">
+                 class="group cursor-pointer bg-white dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 hover:border-orange-500 dark:hover:border-orange-500 rounded-xl p-2 flex items-center gap-3 transition">
+              <img src="${had.motherImage || had.image}" alt="Dam" class="w-14 h-14 aspect-square rounded-lg object-cover flex-shrink-0 group-hover:opacity-90">
               <div class="overflow-hidden">
                 <span class="text-[11px] font-bold text-pink-500 dark:text-pink-400 block">${t.motherBadge}</span>
                 <span class="text-xs font-semibold text-zinc-900 dark:text-zinc-200 truncate block">${had.motherName || '-'}</span>
@@ -155,12 +157,12 @@ function otevriDetail(idHada, zapsatDoHistorie = true) {
           </div>
 
           <h1 class="text-3xl font-extrabold text-zinc-900 dark:text-white mb-1">${had.name}</h1>
-          <p class="text-amber-600 dark:text-amber-400 font-semibold mb-6">${had.hets}</p>
+          <p class="text-orange-600 dark:text-orange-400 font-semibold mb-6">${had.hets}</p>
 
-          <div class="grid grid-cols-2 gap-4 bg-slate-100 dark:bg-zinc-950/60 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800/80 mb-6 text-sm">
+          <div class="grid grid-cols-2 gap-4 bg-slate-100 dark:bg-stone-950/60 p-4 rounded-xl border border-zinc-200 dark:border-stone-800/80 mb-6 text-sm">
             <div>
               <span class="text-zinc-500 block text-xs">${t.sexLabel}</span>
-              <span class="font-semibold">${formatujPohlavi(had.sex)}</span>
+              <span class="font-semibold">${had.sex}</span>
             </div>
             <div>
               <span class="text-zinc-500 block text-xs">${t.currentWeightLabel}</span>
@@ -180,12 +182,12 @@ function otevriDetail(idHada, zapsatDoHistorie = true) {
           <p class="text-zinc-600 dark:text-zinc-300 text-sm leading-relaxed mb-8">${popisText || ''}</p>
         </div>
 
-        <div class="pt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4">
+        <div class="pt-6 border-t border-zinc-200 dark:border-stone-800 flex flex-wrap items-center justify-between gap-4">
           <div>
             <span class="text-xs text-zinc-500 block">${t.priceLabel}</span>
-            <span class="text-3xl font-extrabold text-amber-600 dark:text-amber-400">${cenaText}</span>
+            <span class="text-3xl font-extrabold text-orange-600 dark:text-orange-500">${cenaText}</span>
           </div>
-          <button onclick="mamZajem('${had.id}', '${had.name}')" class="px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold transition shadow-lg shadow-amber-500/20 flex items-center gap-2">
+          <button onclick="mamZajem('${had.id}', '${had.name}')" class="px-6 py-3.5 rounded-xl bg-orange-700 hover:bg-orange-600 text-white font-bold transition shadow-lg shadow-orange-700/20 flex items-center gap-2">
             <i class="fa-solid fa-paper-plane"></i> ${t.interestedBtn}
           </button>
         </div>
@@ -218,14 +220,82 @@ function mamZajem(idHada, jmenoHada) {
   zmenZalozku('kontakt', true);
 }
 
+// --- POMOCNÉ FUNKCE PRO FILTROVÁNÍ POHLAVÍ ---
+function jeSamec(pohlaviText) {
+  const s = (pohlaviText || '').toString().toLowerCase().trim();
+  return s.includes('1.0') || s.includes('1,0') || s.includes('samec') || s === 'm' || s === 'male' || s.includes('♂');
+}
+
+function jeSamice(pohlaviText) {
+  const s = (pohlaviText || '').toString().toLowerCase().trim();
+  return s.includes('0.1') || s.includes('0,1') || s.includes('samice') || s === 'f' || s === 'female' || s.includes('♀');
+}
+
+let aktualniGenFiltr = 'Vše';
+let aktualniHledani = '';
+
 function filtruj(kriterium) {
   aktualniFiltr = kriterium;
-  if (kriterium === 'Vše') {
-    vykresliKarty(vsichniHadi);
-  } else if (kriterium === 'Volný') {
-    vykresliKarty(vsichniHadi.filter(h => h.status === 'Volný'));
+
+  document.querySelectorAll('.filtr-zakladni').forEach(btn => {
+    btn.className = 'filtr-zakladni px-4 py-2 rounded-xl text-sm font-semibold bg-zinc-200 dark:bg-stone-800 hover:bg-orange-600 hover:text-white transition';
+  });
+  const aktivniBtn = document.getElementById('filtr-btn-' + kriterium);
+  if (aktivniBtn) {
+    aktivniBtn.className = 'filtr-zakladni px-4 py-2 rounded-xl text-sm font-semibold bg-orange-600 text-white transition';
+  }
+
+  aplikujVsechnyFiltry();
+}
+
+function filtrujGen(gen) {
+  aktualniGenFiltr = (aktualniGenFiltr === gen && gen !== 'Vše') ? 'Vše' : gen;
+
+  document.querySelectorAll('.filtr-gen').forEach(btn => {
+    btn.className = 'filtr-gen px-3 py-1 rounded-lg text-xs font-semibold bg-zinc-100 dark:bg-stone-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-stone-800 hover:border-orange-500/50 transition';
+  });
+  const aktivniGenBtn = document.getElementById('gen-btn-' + aktualniGenFiltr);
+  if (aktivniGenBtn) {
+    aktivniGenBtn.className = 'filtr-gen px-3 py-1 rounded-lg text-xs font-semibold bg-orange-500/20 text-orange-500 border border-orange-500/40 transition';
+  }
+
+  aplikujVsechnyFiltry();
+}
+
+function hledatMutaci(text) {
+  aktualniHledani = text.toLowerCase().trim();
+  aplikujVsechnyFiltry();
+}
+
+function aplikujVsechnyFiltry() {
+  const vysledek = vsichniHadi.filter(had => {
+    if (aktualniFiltr === 'Volný' && (had.status || '').trim().toLowerCase() !== 'volný') return false;
+    if (aktualniFiltr === '1.0' && !jeSamec(had.sex)) return false;
+    if (aktualniFiltr === '0.1' && !jeSamice(had.sex)) return false;
+
+    const genetikaText = `${had.id || ''} ${had.name || ''} ${had.hets || ''} ${had.description || ''}`.toLowerCase();
+
+    if (aktualniGenFiltr !== 'Vše' && !genetikaText.includes(aktualniGenFiltr.toLowerCase())) {
+      return false;
+    }
+
+    if (aktualniHledani !== '' && !genetikaText.includes(aktualniHledani)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  const mrizka = document.getElementById('katalog-mrizka');
+  if (vysledek.length === 0 && mrizka) {
+    mrizka.innerHTML = `
+      <div class="col-span-full py-12 text-center text-zinc-500 dark:text-zinc-400 bg-zinc-100/50 dark:bg-stone-900/40 rounded-2xl border border-zinc-200 dark:border-stone-800">
+        <i class="fa-solid fa-magnifying-glass text-2xl mb-2 text-orange-500 block"></i>
+        Žádné mládě neodpovídá zvolené kombinaci filtrů.
+      </div>
+    `;
   } else {
-    vykresliKarty(vsichniHadi.filter(h => h.sex && h.sex.includes(kriterium)));
+    vykresliKarty(vysledek);
   }
 }
 
