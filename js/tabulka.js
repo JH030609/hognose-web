@@ -1,31 +1,4 @@
 function nactiData() {
-  const zdrojDat = GOOGLE_SHEET_CSV_URL.startsWith("http") ? GOOGLE_SHEET_CSV_URL : 'hadi.json';
-
-  fetch(zdrojDat)
-    .then(odpoved => odpoved.text())
-    .then(surovaData => {
-      if (zdrojDat.endsWith('.json')) {
-        vsichniHadi = JSON.parse(surovaData);
-      } else {
-        vsichniHadi = zpracujCsvTabulku(surovaData);
-      }
-      
-      if (vsichniHadi.length === 0 && zdrojDat !== 'hadi.json') {
-        fetch('hadi.json')
-          .then(res => res.json())
-          .then(jsonZaloha => {
-            vsichniHadi = jsonZaloha;
-            filtruj(aktualniFiltr);
-            zpracujHashUrl();
-          });
-      } else {
-        filtruj(aktualniFiltr);
-        zpracujHashUrl();
-      }
-    })
-    .catch(chyba => {
-      console.error("Chyba při načítání dat:", chyba);
-    });
 }
 
 function zpracujCsvTabulku(csvText) {
