@@ -125,103 +125,125 @@
       <div id="detail-obsah"></div>
     </section>
 
-  <!-- 3. SEKCE: NÁŠ CHOV -->
+ <!-- 3. SEKCE: NÁŠ CHOV -->
     <section id="sekce-chov" class="zalozka hidden">
-      <div class="max-w-4xl mx-auto">
+      <div class="max-w-5xl mx-auto">
         <div class="mb-8">
           <h1 class="text-3xl font-extrabold tracking-tight mb-3" data-i18n="breedingTitle">Náš chov a projekty</h1>
           <p class="text-zinc-600 dark:text-zinc-400 text-base leading-relaxed mb-6" data-i18n="breedingDesc">
-            Zakládáme si na špičkové hygieně, pestrém genetickém základu a přirozeném cyklu zimování. Vyber si níže, co tě zajímá:
+            Zakládáme si na špičkové hygieně, pevném zdraví a pestrém genetickém základu.
           </p>
 
-          <!-- 2 přepínací tlačítka podsekcí -->
-          <div class="flex flex-wrap gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-6">
-            <button id="btn-chov-projekty" onclick="prepniPodsekciChovu('projekty')" class="px-5 py-3 rounded-xl text-sm font-bold bg-amber-500 text-zinc-950 shadow-md shadow-amber-500/10 transition flex items-center gap-2">
-              <i class="fa-solid fa-dna"></i> <span>Plánované projekty</span>
-            </button>
-            <button id="btn-chov-podminky" onclick="prepniPodsekciChovu('podminky')" class="px-5 py-3 rounded-xl text-sm font-bold bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-amber-500 hover:text-zinc-950 transition flex items-center gap-2">
+          <!-- Přepínací tlačítka: 1. Podmínky chovu (aktivní), 2. Plánované projekty -->
+          <div class="flex flex-wrap gap-3 border-b border-zinc-200 dark:border-stone-800 pb-6">
+            <button id="btn-chov-podminky" onclick="prepniPodsekciChovu('podminky')" class="px-5 py-3 rounded-xl text-sm font-bold bg-orange-600 text-white shadow-md shadow-orange-600/20 transition flex items-center gap-2">
               <i class="fa-solid fa-temperature-half"></i> <span>Obecné podmínky chovu</span>
             </button>
+            <button id="btn-chov-projekty" onclick="prepniPodsekciChovu('projekty')" class="px-5 py-3 rounded-xl text-sm font-bold bg-zinc-200 dark:bg-stone-800 text-zinc-700 dark:text-zinc-300 hover:bg-orange-600 hover:text-white transition flex items-center gap-2">
+              <i class="fa-solid fa-dna"></i> <span>Plánované projekty</span>
+            </button>
           </div>
         </div>
 
-        <!-- PODSEKCE A: PLÁNOVANÉ PROJEKTY (Výchozí viditelná) -->
-        <div id="chov-obsah-projekty" class="space-y-6">
-          <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 rounded-2xl shadow-sm">
-            <span class="text-xs font-bold uppercase tracking-wider text-amber-500 block mb-1">Sezóna 2027</span>
-            <h2 class="text-2xl font-bold mb-3">Plánovaná spojení a genetické projekty</h2>
-            <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
-              Náš chov zaměřujeme na kombinace recesivních a neúplně dominantních genů v čele s liniemi <strong>Toffee, Axanthic (Toxic), Arctic, Sable, Lavender, Hypo a Conda</strong>. Zde je ukázka hlavních projektů:
-            </p>
-
-            <!-- Mřížka projektů / vrhů -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="p-5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800/80">
-                <span class="text-xs font-mono text-amber-500 font-bold">Projekt A • Arctic & Toffee</span>
-                <h3 class="font-bold text-lg mt-1 mb-2">1.0 Arctic Toffeeconda × 0.1 Superarctic het Toffee</h3>
-                <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                  Cílem spojení jsou vysoce kontrastní jedinci Superarctic Toffee a Superarctic Toffeeconda s výraznou kresbou.
-                </p>
-              </div>
-
-              <div class="p-5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800/80">
-                <span class="text-xs font-mono text-amber-500 font-bold">Projekt B • Sable & Toffee</span>
-                <h3 class="font-bold text-lg mt-1 mb-2">1.0 Sable het Toffee × 0.1 Toffeeconda het Sable</h3>
-                <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                  Kombinace tmavého genu Sable s teplými tóny Toffee a redukovanou kresbou Conda.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PODSEKCE B: OBECNÉ PODMÍNKY CHOVU (Výchozí skrytá) -->
-        <div id="chov-obsah-podminky" class="hidden space-y-6">
+        <!-- PODSEKCE 1: OBECNÉ PODMÍNKY CHOVU (Zobrazí se jako první!) -->
+        <div id="chov-obsah-podminky" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm">
-              <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold mb-4">
+            <div class="bg-white dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 p-6 rounded-2xl shadow-sm">
+              <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold mb-4">
                 <i class="fa-solid fa-layer-group"></i>
               </div>
               <h3 class="text-lg font-bold mb-2">Ubytování a teplotní gradient</h3>
               <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Zvířata chováme v profesionálním rack systému s přesnou termoregulací. Na teplém místě udržujeme lokálně <strong>31–32 °C</strong>, zatímco chladnější část boxu kopíruje pokojovou teplotu okolo <strong>24–26 °C</strong> s nočním poklesem. Jako substrát používáme bezprašné dřevěné štěpky (aspen/buk), které umožňují přirozené zahrabávání.
+                Zvířata chováme v profesionálním rack systému s přesnou termoregulací. Na teplém místě udržujeme lokálně <strong>31–32 °C</strong>, zatímco chladnější část kopíruje pokojovou teplotu okolo <strong>24–26 °C</strong>. Jako substrát používáme bezprašné dřevěné štěpky (aspen/buk) pro přirozené zahrabávání.
               </p>
             </div>
 
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm">
-              <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold mb-4">
+            <div class="bg-white dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 p-6 rounded-2xl shadow-sm">
+              <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold mb-4">
                 <i class="fa-solid fa-snowflake"></i>
               </div>
               <h3 class="text-lg font-bold mb-2">Zimování (Brumace)</h3>
               <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Pro zdraví a úspěšnou reprodukci dopřáváme dospělým jedincům pravidelný zimní klid v kontrolovaném chladicím boxu při teplotě <strong>12–15 °C</strong> po dobu 8 až 10 týdnů. Postupné odzimování probíhá ve skupinách pro optimální načasování sezóny.
+                Pro zdraví a úspěšnou reprodukci dopřáváme dospělým jedincům pravidelný zimní klid při kontrolované teplotě <strong>12–15 °C</strong>. Postupné odzimování probíhá v oddělených skupinách pro optimální načasování sezóny.
               </p>
             </div>
 
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm">
-              <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold mb-4">
+            <div class="bg-white dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 p-6 rounded-2xl shadow-sm">
+              <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold mb-4">
                 <i class="fa-solid fa-utensils"></i>
               </div>
               <h3 class="text-lg font-bold mb-2">Krmení a vlastní chov hlodavců</h3>
               <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Veškerá krmná zvířata pochází z našeho vlastního uzavřeného chovu s přísnou biosekuritou. Mláďata jsou od prvního krmení učena na rozmrazená myší holátka z pinzety a do nových domovů odchází až po minimálně 5 až 8 bezproblémových krmeních.
+                Veškerá krmná zvířata pochází z našeho vlastního chovu s přísnou biosekuritou. Mláďata jsou od prvního krmení učena na rozmrazená myší holátka a odchází až po minimálně 5 samostatných krmeních.
               </p>
             </div>
 
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm">
-              <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold mb-4">
+            <div class="bg-white dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 p-6 rounded-2xl shadow-sm">
+              <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold mb-4">
                 <i class="fa-solid fa-shield-heart"></i>
               </div>
               <h3 class="text-lg font-bold mb-2">Hygiena a chovatelský servis</h3>
               <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Ke každému mláděti předáváme kompletní záznam o původu, datu líhnutí, váze a historii krmení i svleků. Samozřejmostí je doživotní poradenství s nastavením terária či rozkrmováním.
+                Ke každému mláděti předáváme kompletní záznam o původu, datu líhnutí, váze a historii krmení. Samozřejmostí je doživotní poradenství s nastavením podmínek.
               </p>
             </div>
 
           </div>
         </div>
 
+        <!-- PODSEKCE 2: PLÁNOVANÉ PROJEKTY S FOTKAMI RODIČŮ (Výchozí skrytá) -->
+        <div id="chov-obsah-projekty" class="hidden space-y-6">
+          
+          <!-- Karta páru 1 -->
+          <div class="bg-white dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 rounded-2xl p-5 sm:p-6 shadow-sm">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-zinc-100 dark:border-stone-800">
+              <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">Projekt A • Sezóna 2027</span>
+              <span class="text-xs font-semibold text-zinc-500">Cíl: Superarctic Toffee / Toffeeconda</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+              <!-- Samec -->
+              <div class="bg-zinc-50 dark:bg-stone-950 p-3 rounded-xl border border-zinc-200 dark:border-stone-800">
+                <img src="img/otec-a.jpg" alt="Samec" class="w-full aspect-square object-cover rounded-lg mb-3">
+                <span class="text-xs font-bold text-blue-500 block">1.0 Samec ♂</span>
+                <h3 class="font-bold text-base text-zinc-900 dark:text-white">Arctic Toffeeconda</h3>
+              </div>
+
+              <!-- Samice -->
+              <div class="bg-zinc-50 dark:bg-stone-950 p-3 rounded-xl border border-zinc-200 dark:border-stone-800">
+                <img src="img/A2.jpg" alt="Samice" class="w-full aspect-square object-cover rounded-lg mb-3">
+                <span class="text-xs font-bold text-pink-500 block">0.1 Samice ♀</span>
+                <h3 class="font-bold text-base text-zinc-900 dark:text-white">Superarctic het Toffee</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Karta páru 2 (Můžeš snadno zkopírovat pro další páry) -->
+          <div class="bg-white dark:bg-stone-900 border border-zinc-200 dark:border-stone-800 rounded-2xl p-5 sm:p-6 shadow-sm">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-zinc-100 dark:border-stone-800">
+              <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">Projekt B • Sezóna 2027</span>
+              <span class="text-xs font-semibold text-zinc-500">Cíl: Toxic (Toffee Axanthic)</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+              <!-- Samec -->
+              <div class="bg-zinc-50 dark:bg-stone-950 p-3 rounded-xl border border-zinc-200 dark:border-stone-800">
+                <img src="img/otec-a.jpg" alt="Samec" class="w-full aspect-square object-cover rounded-lg mb-3">
+                <span class="text-xs font-bold text-blue-500 block">1.0 Samec ♂</span>
+                <h3 class="font-bold text-base text-zinc-900 dark:text-white">Axanthic het Toffee</h3>
+              </div>
+
+              <!-- Samice -->
+              <div class="bg-zinc-50 dark:bg-stone-950 p-3 rounded-xl border border-zinc-200 dark:border-stone-800">
+                <img src="img/B4.jpg" alt="Samice" class="w-full aspect-square object-cover rounded-lg mb-3">
+                <span class="text-xs font-bold text-pink-500 block">0.1 Samice ♀</span>
+                <h3 class="font-bold text-base text-zinc-900 dark:text-white">Toffeebelly het Axanthic</h3>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
@@ -252,10 +274,7 @@
   </footer>
 
 
-<!-- Načtení rozdělených skriptů s českými názvy -->
-  <script src="js/nastaveni.js"></script>
-  <script src="js/preklady.js"></script>
-  <script src="js/tabulka.js"></script>
-  <script src="js/vzhled.js"></script>
-</body>
-</html>
+<script src="js/nastaveni.js?v=2"></script>
+  <script src="js/preklady.js?v=2"></script>
+  <script src="js/tabulka.js?v=2"></script>
+  <script src="js/vzhled.js?v=2"></script>

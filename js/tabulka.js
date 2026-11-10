@@ -1,11 +1,44 @@
-function nactiData() {
+async function nactiData() {
+  try {
+    let načteníÚspěšné = false;
+
+    if (typeof GOOGLE_SHEET_CSV_URL !== 'undefined' && GOOGLE_SHEET_CSV_URL.startsWith('http')) {
+      const urlBezCache = GOOGLE_SHEET_CSV_URL + (GOOGLE_SHEET_CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now();
+      const odpoved = await fetch(urlBezCache);
+      if (odpoved.ok) {
+        const csvText = await odpoved.text();
+        const zTabulky = zpracujCsvTabulku(csvText);
+        if (zTabulky.length > 0) {
+          vsichniHadi = zTabulky;
+          načteníÚspěšné = true;
+        }
+      }
+    }
+
+    if (!načteníÚspěšné) {
+      const odpovedJson = await fetch('hadi.json');
+      if (odpovedJson.ok) {
+        vsichniHadi = await odpovedJson.json();
+      }
+    }
+
+    zpracujHashUrl();
+    if (typeof aplikujVsechnyFiltry === 'function') {
+      aplikujVsechnyFiltry();
+    } else {
+      vykresliKarty(vsichniHadi);
+    }
+  } catch (chyba) {
+    console.error("Chyba při načítání dat:", chyba);
+    zpracujHashUrl();
+  }
 }
 
 function zpracujCsvTabulku(csvText) {
   const radky = parseCSV(csvText);
   if (radky.length < 2) return [];
 
-  const hlavicka = radky[0].map(h => h.trim());
+  const hlavicka = radky[0].map(h => h.trim().toLowerCase());
   const vysledek = [];
 
   for (let i = 1; i < radky.length; i++) {
@@ -17,7 +50,8 @@ function zpracujCsvTabulku(csvText) {
       raw[klic] = radek[index] ? radek[index].trim() : "";
     });
 
-    const vrh = databazeVrhu[raw.clutch] || {};
+    const kodVrhu = raw.clutch || (raw.id ? raw.id.charAt(0).toUpperCase() : "");
+    const vrh = (typeof databazeVrhu !== 'undefined' && databazeVrhu[kodVrhu]) ? databazeVrhu[kodVrhu] : {};
     const cistaCena = parseInt((raw.price || "").replace(/\s+/g, ''), 10) || 0;
     const kodStavu = (raw.status || 'V').toUpperCase();
 
@@ -25,21 +59,21 @@ function zpracujCsvTabulku(csvText) {
       id: raw.id,
       name: raw.name,
       hets: raw.hets,
-      sex: raw.sex,
+      sex: raw.sex || raw.pohlavi || "-",
       weight: (raw.weight && raw.weight.includes('g')) ? raw.weight : `${raw.weight} g`,
-      hatchDate: vrh.hatchDate || "-",
-      fatherName: vrh.fatherName || "-",
-      fatherImage: vrh.fatherImage || `img/${raw.id}.jpg`,
-      motherName: vrh.motherName || "-",
-      motherImage: vrh.motherImage || `img/${raw.id}.jpg`,
-      feeding: "Rozmrazená myší holátka",
-      feedingEn: "Frozen/thawed pinky mice",
+      hatchDate: raw.hatchdate || vrh.hatchDate || "-",
+      fatherName: raw.fathername || vrh.fatherName || "-",
+      fatherImage: raw.fatherimage || vrh.fatherImage || `img/${raw.id}.jpg`,
+      motherName: raw.mothername || vrh.motherName || "-",
+      motherImage: raw.motherimage || vrh.motherImage || `img/${raw.id}.jpg`,
+      feeding: raw.feeding || "Rozmrazená myší holátka",
+      feedingEn: raw.feedingen || "Frozen/thawed pinky mice",
       description: raw.description || "Zdravé, bezproblémově rozkrmené mládě z vlastního chovu.",
-      descriptionEn: raw.descriptionEn || "Healthy, well-started hatchling from our own breeding.",
-      price: cistaCena ? `${cistaCena.toLocaleString('cs-CZ')} Kč` : "Na dotaz",
-      priceEn: cistaCena ? `${Math.round(cistaCena / KURZ_EUR)} €` : "Inquire",
-      status: kodStavu === 'V' ? 'Volný' : (kodStavu === 'R' ? 'Rezervace' : 'Prodáno'),
-      statusEn: kodStavu === 'V' ? 'Available' : (kodStavu === 'R' ? 'On Hold' : 'Sold'),
+      descriptionEn: raw.descriptionen || "Healthy, well-started hatchling from our own breeding.",
+      price: cistaCena ? `${cistaCena.toLocaleString('cs-CZ')} Kč` : (raw.price || "Na dotaz"),
+      priceEn: cistaCena ? `${Math.round(cistaCena / KURZ_EUR)} €` : (raw.priceen || "Inquire"),
+      status: (kodStavu === 'V' || kodStavu === 'VOLNÝ') ? 'Volný' : ((kodStavu === 'R' || kodStavu === 'REZERVACE') ? 'Rezervace' : 'Prodáno'),
+      statusEn: (kodStavu === 'V' || kodStavu === 'VOLNÝ') ? 'Available' : ((kodStavu === 'R' || kodStavu === 'REZERVACE') ? 'On Hold' : 'Sold'),
       image: raw.image || `img/${raw.id}.jpg`
     });
   }

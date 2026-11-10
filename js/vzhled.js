@@ -318,18 +318,18 @@ function prepniPodsekciChovu(podsekce) {
 
   if (!obsahProjekty || !obsahPodminky) return;
 
-  const aktivniStyl = 'px-5 py-3 rounded-xl text-sm font-bold bg-amber-500 text-zinc-950 shadow-md shadow-amber-500/10 transition flex items-center gap-2';
-  const neaktivniStyl = 'px-5 py-3 rounded-xl text-sm font-bold bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-amber-500 hover:text-zinc-950 transition flex items-center gap-2';
+  const aktivniStyl = 'px-5 py-3 rounded-xl text-sm font-bold bg-orange-600 text-white shadow-md shadow-orange-600/20 transition flex items-center gap-2';
+  const neaktivniStyl = 'px-5 py-3 rounded-xl text-sm font-bold bg-zinc-200 dark:bg-stone-800 text-zinc-700 dark:text-zinc-300 hover:bg-orange-600 hover:text-white transition flex items-center gap-2';
 
-  if (podsekce === 'podminky') {
-    obsahProjekty.classList.add('hidden');
-    obsahPodminky.classList.remove('hidden');
-    btnPodminky.className = aktivniStyl;
-    btnProjekty.className = neaktivniStyl;
-  } else {
+  if (podsekce === 'projekty') {
     obsahPodminky.classList.add('hidden');
     obsahProjekty.classList.remove('hidden');
     btnProjekty.className = aktivniStyl;
     btnPodminky.className = neaktivniStyl;
+  } else {
+    obsahProjekty.classList.add('hidden');
+    obsahPodminky.classList.remove('hidden');
+    btnPodminky.className = aktivniStyl;
+    btnProjekty.className = neaktivniStyl;
   }
 }
