@@ -310,3 +310,26 @@ function prepnoutRezim() {
     ikona.className = "fa-solid fa-sun";
   }
 }
+function prepniPodsekciChovu(podsekce) {
+  const obsahProjekty = document.getElementById('chov-obsah-projekty');
+  const obsahPodminky = document.getElementById('chov-obsah-podminky');
+  const btnProjekty = document.getElementById('btn-chov-projekty');
+  const btnPodminky = document.getElementById('btn-chov-podminky');
+
+  if (!obsahProjekty || !obsahPodminky) return;
+
+  const aktivniStyl = 'px-5 py-3 rounded-xl text-sm font-bold bg-amber-500 text-zinc-950 shadow-md shadow-amber-500/10 transition flex items-center gap-2';
+  const neaktivniStyl = 'px-5 py-3 rounded-xl text-sm font-bold bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-amber-500 hover:text-zinc-950 transition flex items-center gap-2';
+
+  if (podsekce === 'podminky') {
+    obsahProjekty.classList.add('hidden');
+    obsahPodminky.classList.remove('hidden');
+    btnPodminky.className = aktivniStyl;
+    btnProjekty.className = neaktivniStyl;
+  } else {
+    obsahPodminky.classList.add('hidden');
+    obsahProjekty.classList.remove('hidden');
+    btnProjekty.className = aktivniStyl;
+    btnPodminky.className = neaktivniStyl;
+  }
+}
